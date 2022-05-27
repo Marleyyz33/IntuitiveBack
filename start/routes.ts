@@ -18,10 +18,17 @@
 |
 */
 
+import { Request } from '@adonisjs/core/build/standalone'
 import Route from '@ioc:Adonis/Core/Route'
-import OperadoraModel  from 'App/Models/Operadora'
+import OperadoraModel from 'App/Models/Operadora'
 
 Route.get('/', async () => {
-  const registros=await OperadoraModel.all()
+  const registros = await OperadoraModel.all()
+  return { data: registros }
+})
+Route.get('/search', async ({ request }) => {
+  const query = request.qs().query
+  console.log(query)
+  const registros = await OperadoraModel.query().where('razao_social', 'like', `%${query}%`)
   return { data: registros }
 })
