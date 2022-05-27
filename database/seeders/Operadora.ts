@@ -3,7 +3,6 @@ import el from '../myOutputFile.json'
 import BaseSeeder from '@ioc:Adonis/Lucid/Seeder'
 import OperadoraModel from 'App/Models/Operadora'
 
-
 export default class OperadoraSeeder extends BaseSeeder {
   public static table = 'operadoras'
 
@@ -29,7 +28,9 @@ export default class OperadoraSeeder extends BaseSeeder {
         endereco_eletronico: el[index]['Endereço eletrônico'] || '',
         representante: el[index].Representante || '',
         cargo_representante: el[index]['Cargo Representante'] || '',
-        data_registro_ans: new Date(),
+        data_registro_ans: el[index]['Data Registro ANS']
+          ? new Date(el[index]['Data Registro ANS'])
+          : new Date(),
       }
       registros.push(a)
     }
