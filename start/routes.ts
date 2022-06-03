@@ -18,7 +18,7 @@
 |
 */
 
-import { Request } from '@adonisjs/core/build/standalone'
+//import { Request } from '@adonisjs/core/build/standalone'
 import Route from '@ioc:Adonis/Core/Route'
 import OperadoraModel from 'App/Models/Operadora'
 
@@ -73,4 +73,40 @@ Route.get('/search', async ({ request }) => {
     .orWhere('representante', 'like', `%${query}%`)
     .orWhere('cargo_representante', 'like', `%${query}%`)
   return { data: registros }
+})
+Route.put('/:id', async ({ request }) => {
+  const id = request.param('id')
+  const registros = await OperadoraModel.updateOrCreate(
+    {
+      id,
+    },
+    {
+      cnpj: request.input('cnpj'),
+      registro_ans: request.input('registro_ans'),
+      razao_social: request.input('razao_social'),
+      nome_fantasia: request.input('nome_fantasia'),
+      modalidade: request.input('modalidade'),
+      logradouro: request.input('logradouro'),
+      numero: request.input('numero'),
+      complemento: request.input('complemento'),
+      bairro: request.input('bairro'),
+      cidade: request.input('cidade'),
+      uf: request.input('uf'),
+      cep: request.input('cep'),
+      ddd: request.input('ddd'),
+      telefone: request.input('telefone'),
+      fax: request.input('fax'),
+      endereco_eletronico: request.input('endereco_eletronico'),
+      representante: request.input('representante'),
+      cargo_representante: request.input('cargo_representante'),
+      data_registro_ans: new Date(request.input('data_registro_ans')),
+    }
+  )
+  return { data: registros }
+})
+
+Route.delete('/:id', async ({ request }) => {
+  const id = request.param('id')
+  const registros = await OperadoraModel.findOrFail(id)
+  await registros.delete()
 })
